@@ -119,6 +119,8 @@ ROUGE-Lsum  : 39.70
 
 These scores indicate strong content coverage, good fluency, and solid structural alignment with reference summaries.
 
+> Note: I have trained the bart-base model on 10% of the dataset due to hardware and time constraints with respect to this project
+
 > Note: ROUGE measures lexical overlap and does not guarantee factual correctness.
 
 ---
