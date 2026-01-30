@@ -1,0 +1,65 @@
+model_trainer:
+  # =========================
+  # Core training
+  # =========================
+  num_train_epochs: 1
+  learning_rate: 0.00003        # 3e-5
+  warmup_steps: 500
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1  
+  weight_decay: 0.01
+  seed: 42
+  data_seed: 42
+
+  # =========================
+  # Optimizer & scheduler
+  # =========================
+  optim: adamw_bnb_8bit
+  lr_scheduler_type: linear
+  max_grad_norm: 1.0
+
+  # =========================
+  # Precision & performance
+  # =========================
+  bf16: true
+  tf32: true
+  dataloader_pin_memory: true
+  dataloader_num_workers: 4
+  gradient_checkpointing: false   # not used in your notebook
+
+  # =========================
+  # Logging / eval / saving
+  # =========================
+  logging_strategy: steps
+  logging_steps: 200
+
+  eval_strategy: steps
+  eval_steps: 500
+
+  save_strategy: steps
+  save_steps: 500
+  save_total_limit: 2
+
+  load_best_model_at_end: true
+
+  # =========================
+  # Generation / eval
+  # =========================
+  predict_with_generate: true
+  generation_num_beams: 4
+  generation_max_length: 142
+
+  # =========================
+  # Dataset fractions
+  # =========================
+  train_fraction: 0.1
+  eval_fraction: 0.1
+
+  # =========================
+  # Misc
+  # =========================
+  report_to: none
+  use_cpu: false
+  torch_empty_cache_steps: 1000
+  torch_compile: true

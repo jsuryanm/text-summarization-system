@@ -1,0 +1,35 @@
+artifacts_root: artifacts
+
+dataset:
+  name: cnn_dailymail
+  source: huggingface
+  hf_repo: abisee/cnn_dailymail
+  version: "3.0.0"
+  text_column: article
+  summary_column: highlights
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  local_data_dir: artifacts/data_ingestion/cnn_dailymail
+
+data_validation:
+  root_dir: artifacts/data_validation
+  STATUS_FILE: artifacts/data_validation/status.txt
+  ALL_REQUIRED_FIELDS: ["train","test","validation"]
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/cnn_dailymail
+  tokenizer_name: facebook/bart-base
+
+model_trainer:
+  root_dir: artifacts/model_training
+  data_path: artifacts/data_transformation/cnn_dailymail
+  model_checkpoint: facebook/bart-base
+  
+model_evaluation:
+  root_dir: artifacts/model_evaluation
+  data_path: artifacts/data_ingestion/cnn_dailymail
+  model_path: artifacts/model_training/model
+  tokenizer_path: artifacts/model_training/tokenizer
+  metric_file_name: artifacts/model_evaluation/metrics.csv

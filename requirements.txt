@@ -1,0 +1,33 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+torch
+transformers
+transformers[sentencepiece]
+datasets
+sacrebleu 
+rouge_score 
+py7zr
+pandas
+nltk
+tqdm
+PyYAML
+matplotlib
+notebook
+boto3
+mypy-boto3-s3
+python-box
+ensure
+fastapi
+uvicorn
+spacy
+ipykernel 
+notebook
+streamlit
+bitsandbytes
+jupyter
+ipywidgets
+mlflow 
+dvc
+accelerate
+evaluate
+-e .
