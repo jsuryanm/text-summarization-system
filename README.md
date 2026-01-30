@@ -1,5 +1,4 @@
-
-# End-to-End Text Summarization System (Production-Ready)
+# End-to-End Text Summarization System 
 
 An **end-to-end, production-style NLP text summarization system** built using **Hugging Face Transformers**, **PyTorch**, **FastAPI**, and **Streamlit**, following **clean architecture and MLOps best practices**.
 
@@ -119,7 +118,7 @@ ROUGE-Lsum  : 39.70
 
 These scores indicate strong content coverage, good fluency, and solid structural alignment with reference summaries.
 
-> Note: I have trained the bart-base model on 10% of the dataset due to hardware and time constraints with respect to this project
+> Note: I had trained the bart-base model on 10% of the dataset due to hardware and time constraints with respect to this project
 
 > Note: ROUGE measures lexical overlap and does not guarantee factual correctness.
 
