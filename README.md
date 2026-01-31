@@ -116,7 +116,7 @@ ROUGE-Lsum  : 39.70
 
 These scores indicate strong content coverage, good fluency, and solid structural alignment with reference summaries.
 
-> Note: I had trained the bart-base model on 10% of the dataset due to hardware and time constraints with respect to this project
+> Note: I had trained the bart-base model on 10% of the dataset due to hardware constraints (NVIDIA RTX 4060) with respect to this project. If you have a powerful GPU use a larger batch size making sure atleast 80-90 % of GPU memory is consumed during the fine-tuning process 
 
 > Note: ROUGE measures lexical overlap and does not guarantee factual correctness.
 
