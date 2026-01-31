@@ -1,8 +1,6 @@
 # End-to-End Text Summarization System 
 
-An **end-to-end, production-style NLP text summarization system** built using **Hugging Face Transformers**, **PyTorch**, **FastAPI**, and **Streamlit**, following **clean architecture and MLOps best practices**.
-
-This project goes beyond notebooks and demonstrates how to **train, evaluate, version, and deploy** a transformer-based summarization model in a real-world setup.
+This project is an **end-to-end implementation of text summarization system** built using **Hugging Face Transformers**, **PyTorch**, **FastAPI**, and **Streamlit**, following **clean architecture and MLOps best practices**.
 
 ---
 
@@ -22,7 +20,7 @@ This project goes beyond notebooks and demonstrates how to **train, evaluate, ve
 
 ##  Model & Dataset
 
-- **Model**: Hugging Face Seq2Seq model (e.g. `facebook/bart-large-cnn`)
+- **Model**: Hugging Face Seq2Seq model ideal to use facebook/bart-large-cnn but due to device constraints I used to `facebook/bart-base`
 - **Dataset**: CNN / DailyMail (Hugging Face Datasets)
 - **Task**: Abstractive text summarization
 - **Metrics**: ROUGE-1, ROUGE-2, ROUGE-L, ROUGE-Lsum
