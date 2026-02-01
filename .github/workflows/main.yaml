@@ -145,6 +145,8 @@ jobs:
       - name: Start services with Docker Compose
         env:
           ECR_URI: $ECR_REGISTRY
+          ECR_API_REPO: ${{ secrets.ECR_API_REPO }}
+          ECR_UI_REPO: ${{ secrets.ECR_UI_REPO }}
         run: docker compose up -d
 
       # Step 7: Cleanup unused Docker resources
