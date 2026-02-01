@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# Training artifacts
+# artifacts/
+logs/
+research/
+
+# Models / checkpoints
+*.bin
+*.pt
+*.ckpt
+
+# Env
+.env

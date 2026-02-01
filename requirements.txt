@@ -15,7 +15,7 @@ matplotlib
 python-box
 ensure
 fastapi
-uvicorn
+uvicorn[standard]
 notebook
 bitsandbytes
 accelerate
