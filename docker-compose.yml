@@ -1,13 +1,13 @@
 services:
   api:
-    image: ${ECR_URI}/text-summarizer-api:latest
+    image: ${ECR_URI}/${ECR_API_REPO}:latest
     container_name: text_summarization_api
     ports:
       - "8000:8000"
     restart: always
 
   ui:
-    image: ${ECR_URI}/text-summarizer-ui:latest
+    image: ${ECR_URI}/${ECR_UI_REPO}:latest
     container_name: text_summarization_ui
     ports:
       - "8501:8501"
