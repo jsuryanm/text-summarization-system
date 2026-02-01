@@ -1,22 +1,16 @@
 services:
   api:
-    # Uncomment this while deployment
     image: ${ECR_URI}/text-summarizer-api:latest
-    container_name: summarizer-api
+    container_name: text_summarization_api
     ports:
       - "8000:8000"
-    
-    environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-  
+    restart: always
+
   ui:
     image: ${ECR_URI}/text-summarizer-ui:latest
-    container_name: summarizer-ui
+    container_name: text_summarization_ui
     ports:
       - "8501:8501"
     depends_on:
       - api
-    environment: 
-      API_URL: http://api:8000/predict
+    restart: always
