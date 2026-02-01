@@ -1,123 +1,148 @@
-name: CI-CD-Pipeline
+# # -----------------------------
+# # Workflow name (shown in GitHub Actions UI)
+# # -----------------------------
+# name: CI-CD Pipeline
 
-on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - README.md
+# # -----------------------------
+# # When should this workflow run?
+# # -----------------------------
+# on:
+#   push:                     # Trigger on git push
+#     branches: [main]        # Only when pushing to main branch
+#     paths-ignore:           # Do NOT trigger if only README.md changes
+#       - README.md
 
-permissions:
-  contents: read
-  id-token: write
+# # -----------------------------
+# # Permissions for the workflow
+# # -----------------------------
+# permissions:
+#   contents: read            # Allow workflow to read repository code
+#   id-token: write           # Required for AWS authentication (OIDC / ECR)
 
-# -------------------------
-# 1. CONTINUOUS INTEGRATION
-# -------------------------
-jobs:
-  ci:
-    name: Continuous Integration
-    runs-on: ubuntu-latest
+# # -----------------------------
+# # Jobs = independent tasks GitHub will run
+# # -----------------------------
+# jobs:
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   # ============================================================
+#   # 1. CONTINUOUS INTEGRATION (CI)
+#   # ============================================================
+#   ci:
+#     name: Continuous Integration
+#     runs-on: ubuntu-latest  # GitHub-hosted Linux VM
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+#     steps:
+#       # Step 1: Download your repository code into the VM
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+#       # Step 2: Install Python
+#       - name: Setup Python
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.10"  # Stable for PyTorch / Transformers
 
-      - name: Sanity import check
-        run: |
-          python - <<EOF
-          from app import app
-          print("FastAPI import OK")
-          EOF
+#       # Step 3: Install Python dependencies
+#       - name: Install dependencies
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
 
-# -------------------------
-# 2. BUILD & PUSH IMAGES
-# -------------------------
-  build-and-push:
-    name: Build & Push Docker Images
-    needs: ci
-    runs-on: ubuntu-latest
+#       # Step 4: Basic sanity check
+#       # This ensures FastAPI app can be imported without crashing
+#       - name: Sanity import check
+#         run: |
+#           python - <<EOF
+#           from app import app
+#           print("FastAPI import OK")
+#           EOF
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#   # ============================================================
+#   # 2. BUILD & PUSH DOCKER IMAGES (CD - Delivery)
+#   # ============================================================
+#   build-and-push:
+#     name: Build & Push Docker Images
+#     needs: ci               # Run ONLY if CI succeeds
+#     runs-on: ubuntu-latest
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+#     steps:
+#       # Step 1: Checkout code again (new VM)
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+#       # Step 2: Authenticate with AWS
+#       # Reads AWS credentials from GitHub Secrets
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Build & Push API Image
-        run: |
-          docker build -f api.Dockerfile \
-            -t ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest .
-          docker push ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest
+#       # Step 3: Login Docker to Amazon ECR
+#       - name: Login to Amazon ECR
+#         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build & Push Streamlit Image
-        run: |
-          docker build -f streamlit.Dockerfile \
-            -t ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest .
-          docker push ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest
+#       # Step 4: Build and push FastAPI image
+#       - name: Build & Push API Image
+#         run: |
+#           docker build -f api.Dockerfile \
+#             -t ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest .
+#           docker push ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest
 
-# -------------------------
-# 3. DEPLOY TO EC2
-# -------------------------
-  deploy:
-    name: Deploy Services
-    needs: build-and-push
-    runs-on: self-hosted
+#       # Step 5: Build and push Streamlit image
+#       - name: Build & Push Streamlit Image
+#         run: |
+#           docker build -f streamlit.Dockerfile \
+#             -t ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest .
+#           docker push ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest
 
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+#   # ============================================================
+#   # 3. DEPLOYMENT (Production)
+#   # ============================================================
+#   deploy:
+#     name: Deploy Services
+#     needs: build-and-push   # Run ONLY if images are pushed successfully
+#     runs-on: self-hosted    # Your EC2 machine (self-hosted runner)
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+#     steps:
+#       - name: Checkout code 
+#         uses: actions/checkout@v4
 
-      - name: Pull images
-        run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest
+#       # Step 1: Authenticate with AWS on EC2
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Stop old containers
-        run: |
-          docker stop summarizer-api summarizer-ui || true
-          docker rm summarizer-api summarizer-ui || true
+#       # Step 2: Login Docker to ECR on EC2
+#       - name: Login to Amazon ECR
+#         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Run API container
-        run: |
-          docker run -d \
-            --name summarizer-api \
-            -p 8000:8000 \
-            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-            -e AWS_REGION=${{ secrets.AWS_REGION }} \
-            ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest
+#       # Step 3: Pull latest images from ECR
+#       - name: Pull latest images
+#         run: |
+#           docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-api:latest
+#           docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest
 
-      - name: Run Streamlit container
-        run: |
-          docker run -d \
-            --name summarizer-ui \
-            -p 8501:8501 \
-            ${{ secrets.AWS_ECR_LOGIN_URI }}/text-summarizer-ui:latest
+#       # Step 4: Stop existing containers (if running)
+#       - name: Stop existing services
+#         run: |
+#           docker compose down || true
 
-      - name: Cleanup
-        run: docker system prune -f
+#       # Step 5: Start services using Docker Compose
+#       # Environment variables are injected here
+#       - name: Start services with Docker Compose
+#         env:
+#           ECR_URI: ${{ secrets.AWS_ECR_LOGIN_URI }}
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           AWS_REGION: ${{ secrets.AWS_REGION }}
+#         run: |
+#           docker compose up -d
+
+#       # Step 6: Cleanup unused Docker resources
+#       - name: Cleanup
+#         run: docker system prune -f
