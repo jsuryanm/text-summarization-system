@@ -54,8 +54,8 @@ jobs:
       - name: Sanity import check
         run: |
           python - <<EOF
-          import app
-          print("FastAPI import OK")
+          import src.summarizer
+          print("Package import OK")
           EOF
 
   # ============================================================
