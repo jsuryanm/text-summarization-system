@@ -10,14 +10,8 @@ __pycache__/
 *.egg-info/
 
 # Training artifacts
-# artifacts/
 logs/
 research/
-
-# Models / checkpoints
-*.bin
-*.pt
-*.ckpt
 
 # Env
 .env

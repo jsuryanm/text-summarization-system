@@ -8,7 +8,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
-predictor = PredictionPipeline()
+_predictor = None
+
+def get_predictor():
+    global _predictor 
+    if _predictor is None: 
+        _predictor = PredictionPipeline()
+    return _predictor
 
 class PredictRequest(BaseModel):
     text: str 
@@ -20,9 +26,11 @@ class PredictResponse(BaseModel):
 def root():
     return {"message":"Text Summarization API running"}
 
+
 @app.post("/predict",response_model=PredictResponse)
 def predict(req: PredictRequest):
     try:
+        predictor = get_predictor()
         summary = predictor.predict(req.text)
         return {"summary":summary}
     except Exception as e:
