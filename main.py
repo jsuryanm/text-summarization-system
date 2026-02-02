@@ -2,7 +2,7 @@ from src.summarizer.pipeline.stage_01_data_ingestion import DataIngestionTrainin
 from src.summarizer.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
 from src.summarizer.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
 from src.summarizer.pipeline.stage_04_model_trainer import ModelTrainerPipeline
-from src.summarizer.pipeline.stage_05_model_evaluation import ModelEvaluationPipeline
+from summarizer.pipeline.stage_06_model_evaluation import ModelEvaluationPipeline
 
 from src.summarizer.logging.logger import logger 
 
