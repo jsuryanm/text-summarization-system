@@ -174,14 +174,9 @@ docker run -p 8501:8501 summarization-ui
 
 ---
 
-## 📌 Future Improvements
+## TODO
+- Upload the model artifacts to S3 container and deploy to ec2 again
 
-- Experiment tracking (MLflow / W&B)
-- Model registry
-- Quantized inference
-- CI/CD pipelines
-- Cloud deployment (AWS ECS / EC2)
-- Monitoring and drift detection
 
 ---
 
