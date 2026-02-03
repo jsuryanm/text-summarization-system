@@ -83,3 +83,14 @@ class ModelEvaluationConfig:
     model_path: Path
     tokenizer_path: Path
     metric_file_name: Path
+
+@dataclass(frozen=True)
+class ModelPusherConfig:
+    model_dir: Path
+    tokenizer_dir: Path
+    hf_repo_id: str
+    hf_private: bool
+
+@dataclass(frozen=True)
+class InferenceConfig:
+    hf_repo_id: str

@@ -6,7 +6,9 @@ from src.summarizer.entity.config_entity import (DataIngestionConfig,
                                                  DataValidationConfig,
                                                  DataTransformationConfig,
                                                  ModelTrainerConfig,
-                                                 ModelEvaluationConfig)
+                                                 ModelEvaluationConfig,
+                                                 ModelPusherConfig,
+                                                 InferenceConfig)
 
 class ConfigurationManager:
     def __init__(self,
@@ -116,3 +118,20 @@ class ConfigurationManager:
                                                   tokenizer_path=config.tokenizer_path,
                                                   metric_file_name=config.metric_file_name)
         return model_eval_config
+    
+    def get_model_pusher_config(self) -> ModelPusherConfig:
+        config = self.config.model_pusher
+        model_pusher_config = ModelPusherConfig(model_dir=config.model_dir,
+                                                tokenizer_dir=config.tokenizer_dir,
+                                                hf_repo_id=config.hf_repo_id,
+                                                hf_private=config.hf_private)
+        return model_pusher_config
+    
+    def get_inference_config(self) -> InferenceConfig:
+        config = self.config.inference
+
+        if not config.hf_repo_id:
+            raise ValueError("HuggingFace repository must set for inference")
+        
+        infer_config = InferenceConfig(hf_repo_id=config.hf_repo_id)
+        return infer_config

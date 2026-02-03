@@ -33,3 +33,12 @@ model_evaluation:
   model_path: artifacts/model_training/model
   tokenizer_path: artifacts/model_training/tokenizer
   metric_file_name: artifacts/model_evaluation/metrics.csv
+
+model_pusher:
+  model_dir: artifacts/model_training/model
+  tokenizer_dir: artifacts/model_training/tokenizer
+  hf_repo_id: jsuryanm/text-summarization-bart-cnn
+  hf_private: false
+
+inference:
+  hf_repo_id: jsuryanm/text-summarization-bart-cnn

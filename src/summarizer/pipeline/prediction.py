@@ -1,16 +1,19 @@
 from src.summarizer.config.configuration import ConfigurationManager
-from transformers import AutoTokenizer,AutoModelForSeq2SeqLM,pipeline 
+from transformers import AutoTokenizer,AutoModelForSeq2SeqLM 
 import torch 
 
 class PredictionPipeline: 
     def __init__(self):
         self.config_mgr = ConfigurationManager()
-        self.config = self.config_mgr.get_model_eval_config()
+        self.config = self.config_mgr.get_inference_config()
+
+        if self.config.hf_repo_id:
+            raise ValueError("HuggingFace repository must be set for inference")
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.tokenizer = AutoTokenizer.from_pretrained(self.config.tokenizer_path)
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(self.config.model_path).to(self.device)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.config.hf_repo_id)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(self.config.hf_repo_id).to(self.device)
 
         self.model.eval()
     
