@@ -213,8 +213,6 @@ artifacts
 artifacts/*
 
 # Model artifacts (DO NOT COMMIT)
-model/
-tokenizer/
 artifacts/
 *.safetensors
 *.bin
