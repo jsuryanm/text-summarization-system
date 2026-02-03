@@ -214,5 +214,4 @@ artifacts/*
 
 # Model artifacts (DO NOT COMMIT)
 artifacts/
-*.safetensors
 *.bin
