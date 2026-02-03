@@ -20,5 +20,7 @@ notebook
 bitsandbytes
 accelerate
 evaluate
-streamlit
+streamlit==1.31.1
+altair==5.2.0
+
 -e .
