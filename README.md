@@ -1,7 +1,7 @@
 # End-to-End Text Summarization System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 
@@ -453,15 +453,11 @@ Internet
    - Configure security groups (allow ports 8000, 8501, 22)
    - Install Docker and Docker Compose
 
-2. **Upload Model Artifacts to S3**
-   ```bash
-   aws s3 sync artifacts/ s3://your-bucket/summarization-artifacts/
-   ```
+2. **Configure GitHub Actions self-hosted runner in EC2
 
 3. **Deploy Containers**
    - SSH into EC2 instances
    - Pull Docker images or build from source
-   - Run containers with environment variables for S3 access
 
 4. **Configure Load Balancer** (Optional)
    - Set up Application Load Balancer
@@ -503,6 +499,7 @@ data_validation:
 ```
 
 ### params.yaml
+The example given below for training is a rough example. I used a lot more parameters for the TrainingArguments function please refer my params.yaml for the exact parameters. 
 
 Defines training hyperparameters:
 
@@ -524,16 +521,6 @@ TrainingArguments:
 > **Tip**: Adjust `per_device_train_batch_size` and `gradient_accumulation_steps` based on your GPU memory.
 
 ---
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ### Development Guidelines
 
