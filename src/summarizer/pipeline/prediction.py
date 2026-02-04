@@ -7,7 +7,7 @@ class PredictionPipeline:
         self.config_mgr = ConfigurationManager()
         self.config = self.config_mgr.get_inference_config()
 
-        if self.config.hf_repo_id:
+        if not self.config.hf_repo_id:
             raise ValueError("HuggingFace repository must be set for inference")
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

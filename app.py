@@ -26,6 +26,9 @@ class PredictResponse(BaseModel):
 def root():
     return {"message":"Text Summarization API running"}
 
+@app.get("/health")
+def health():
+    return {"status": "ok", "model_loaded": True}
 
 @app.post("/predict",response_model=PredictResponse)
 def predict(req: PredictRequest):
