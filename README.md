@@ -193,7 +193,7 @@ text-summarization-system/
 ## 💻 Installation
 
 ### Prerequisites
-- Python 3.8 or higher
+- Python 3.10 or higher
 - CUDA-capable GPU (recommended, NVIDIA RTX 4060 or better)
 - 8GB+ RAM
 - Docker (for containerized deployment)
@@ -290,10 +290,10 @@ The model was evaluated on the CNN/DailyMail test set using ROUGE metrics:
 
 | Metric | Score | Interpretation |
 |--------|-------|----------------|
-| **ROUGE-1** | 42.73 | Strong unigram overlap - good content coverage |
-| **ROUGE-2** | 20.29 | Solid bigram matching - maintains fluency |
-| **ROUGE-L** | 29.34 | Good structural similarity |
-| **ROUGE-Lsum** | 39.70 | High summary-level coherence |
+| **ROUGE-1** | 39.43 | Strong unigram overlap - good content coverage |
+| **ROUGE-2** | 17.65 | Solid bigram matching - maintains fluency |
+| **ROUGE-L** | 26.89 | Good structural similarity |
+| **ROUGE-Lsum** | 36.34 | High summary-level coherence |
 
 ### Understanding ROUGE Metrics
 
