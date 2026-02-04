@@ -4,7 +4,7 @@ from src.summarizer.pipeline.prediction import PredictionPipeline
 
 app = FastAPI(
     title="Text Summarization API",
-    description="Summarize long articles using a Transformer model",
+    description="Summarize long articles using pretrained BART model",
     version="1.0.0"
 )
 
