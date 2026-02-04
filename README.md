@@ -464,13 +464,15 @@ Internet
    - Configure health checks
    - Enable auto-scaling
 
-### Environment Variables
+### GitHub Secrets
 
 ```bash
 AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
-S3_BUCKET=your-bucket-name
-MODEL_PATH=summarization-artifacts/model_trainer/
+ECR_API_REPO=ecr_repo_name
+ECR_UI_REPO=ecr_repo_name
+AWS_ACCOUNT_ID=account_id
+AWS_REGION=region
 ```
 
 ---
