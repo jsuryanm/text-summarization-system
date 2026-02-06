@@ -37,8 +37,8 @@ model_evaluation:
 model_pusher:
   model_dir: artifacts/model_training/model
   tokenizer_dir: artifacts/model_training/tokenizer
-  hf_repo_id: jsuryanm/text-summarization-bart-cnn
+  hf_repo_id: ${HF_REPO_ID}
   hf_private: false
 
 inference:
-  hf_repo_id: jsuryanm/text-summarization-bart-cnn
+  hf_repo_id: ${HF_REPO_ID}

@@ -4,6 +4,8 @@ services:
     container_name: text_summarization_api
     ports:
       - "8000:8000"
+    environment:
+      HF_REPO_ID: ${HF_REPO_ID}
     restart: always
 
   ui:
